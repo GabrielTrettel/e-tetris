@@ -205,20 +205,14 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Atom OneDark  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (use-package atom-one-dark-theme
   :ensure t)
 
 (load-theme 'atom-one-dark t)
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Git Gutter ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package git-gutter
-  :ensure t)
-;; If you enable global minor mode
-(global-git-gutter-mode t)
-
-
-
-
-
-
+  :ensure t
+  :init
+  (global-git-gutter-mode t))
