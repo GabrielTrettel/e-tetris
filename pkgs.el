@@ -28,8 +28,21 @@
   :config
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
+  (setq ivy-display-style 'fancy)
   :init
   (ivy-mode 1))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;; ivy-posframe ;;;;;;;;;;;;;;;;;;;;;;
+;; Just a pkg for ivy completions in a "pop-up window"
+
+(use-package ivy-posframe
+  :ensure t
+  :config
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-center)))
+  :init
+  (ivy-posframe-mode 1))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Command hints ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package which-key
@@ -140,7 +153,7 @@
   :ensure t
   :config (treemacs-set-scope-type 'Perspectives))
 
-
+(add-hook 'treemacs-mode-hook (lambda() (display-line-numbers-mode -1)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; DOOM MODELINE  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -205,10 +218,16 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Atom OneDark  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package atom-one-dark-theme
-  :ensure t)
+;; (use-package atom-one-dark-theme
+;;   :ensure t)
 
-(load-theme 'atom-one-dark t)
+;; (load-theme 'atom-one-dark t)
+
+(use-package doom-themes
+  :ensure t
+  :config
+  (load-theme 'doom-one)
+  (doom-themes-treemacs-config))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Git Gutter ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -216,3 +235,16 @@
   :ensure t
   :init
   (global-git-gutter-mode t))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Snippets ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package yasnippet
+  :ensure t)
+
+(yas-reload-all)
+(add-hook 'prog-mode-hook #'yas-minor-mode)
+
+(use-package doom-snippets
+  :load-path "/home/trettel/.emacs.d/cloned-pkgs/doom-snippets"
+  :after yasnippet)
+
+(doom-snippets-initialize)
