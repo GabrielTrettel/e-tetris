@@ -119,13 +119,26 @@
   :ensure t
   :init)
 
+(use-package tex
+  :ensure auctex)
+
 (use-package org-bullets
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
+(use-package org-ac
+  :ensure t
+  :init)
+
 (setq org-support-shift-select t)
 (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
+(add-to-list 'ac-modes 'org-mode)
+
+(add-hook 'org-mode-hook
+    '(lambda ()
+        (make-variable-buffer-local 'yas/trigger-key)
+(setq yas/trigger-key [tab])))
 
 (add-to-list 'org-structure-template-alist
 	'("L" "#+TODO: TODO IN-PROGRESS WAITING DONE\n#+OPTIONS: tex:t\n#+STARTUP: latexpreview\n\n? "))
@@ -247,16 +260,20 @@
   (global-git-gutter-mode t))
 
 (use-package yasnippet
-  :ensure t
-  :config
-  (yas-reload-all)
-  (add-hook 'prog-mode-hook #'yas-minor-mode))
-
-(use-package doom-snippets
-  :load-path "/home/trettel/.emacs.d/cloned-pkgs/doom-snippets"
-  :after yasnippet)
-
-(doom-snippets-initialize)
+     :ensure t
+     :config
+     (yas-reload-all)
+     (add-hook 'prog-mode-hook #'yas-minor-mode)
+     (add-hook 'org-mode-hook #'yas-minor-mode))
+   
+     (use-package yasnippet-snippets
+     :ensure t)
+   
+;;   (use-package doom-snippets
+;;     :load-path "/home/trettel/.emacs.d/cloned-pkgs/doom-snippets"
+;;     :after yasnippet)
+   
+;;   (doom-snippets-initialize)
 
 (use-package auto-complete
   :ensure t

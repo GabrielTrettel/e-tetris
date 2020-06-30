@@ -151,22 +151,43 @@
       :init)
     #+END_SRC
 
+** LaTeX 
+   #+BEGIN_SRC emacs-lisp
+   (use-package tex
+     :ensure auctex)
+   #+END_SRC
+
 ** Org
    
 *** Org packages
-    #+BEGIN_SRC emacs-lisp
-    (use-package org-bullets
-      :ensure t
-      :config
-      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-    #+END_SRC
 
+**** Bullets + tab instead of ***
+     #+BEGIN_SRC emacs-lisp
+     (use-package org-bullets
+       :ensure t
+       :config
+       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+     #+END_SRC
+    
+**** auto complete
+     #+BEGIN_SRC emacs-lisp
+       (use-package org-ac
+	 :ensure t
+	 :init)
+     #+END_SRC
 *** Org configs
 
 **** Some init definitions
      #+BEGIN_SRC emacs-lisp
      (setq org-support-shift-select t)
      (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
+     (add-to-list 'ac-modes 'org-mode)
+     
+     (add-hook 'org-mode-hook
+         '(lambda ()
+             (make-variable-buffer-local 'yas/trigger-key)
+     (setq yas/trigger-key [tab])))
+
      #+END_SRC
     
 **** Header templates
@@ -310,13 +331,17 @@
      :ensure t
      :config
      (yas-reload-all)
-     (add-hook 'prog-mode-hook #'yas-minor-mode))
+     (add-hook 'prog-mode-hook #'yas-minor-mode)
+     (add-hook 'org-mode-hook #'yas-minor-mode))
    
-   (use-package doom-snippets
-     :load-path "/home/trettel/.emacs.d/cloned-pkgs/doom-snippets"
-     :after yasnippet)
+     (use-package yasnippet-snippets
+     :ensure t)
    
-   (doom-snippets-initialize)
+;;   (use-package doom-snippets
+;;     :load-path "/home/trettel/.emacs.d/cloned-pkgs/doom-snippets"
+;;     :after yasnippet)
+   
+;;   (doom-snippets-initialize)
    #+END_SRC
 ** Auto completions
 *** auto-complete
