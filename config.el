@@ -4,7 +4,8 @@
  package-archives
  '(("gnu" . "https://elpa.gnu.org/packages/")
    ("melpa" . "https://melpa.org/packages/")
-   ("org"   . "http://orgmode.org/elpa/")))
+   ("org"   . "http://orgmode.org/elpa/")
+   ("ublt" . "https://elpa.ubolonton.org/packages/")))
 
 ;; Bootstrap use-package
 (unless (package-installed-p 'use-package)
@@ -12,45 +13,54 @@
   (package-install 'use-package))
 (require 'use-package)
 
+;; Ctrl+c Ctrl+v Ctrl+x Ctrl+z like normal people
+;; (cua-mode t)
+
+(global-set-key (kbd "C-<tab>") 'other-window)
+
 (use-package evil
   :ensure t
   :config
-  (evil-mode 1))
+  (evil-mode 0))
 
-(defvar my-leader-map (make-sparse-keymap)
-  "Keymap for \"leader key\" shortcuts.")
+  (cua-mode t)
 
-;; binding "," to the keymap
-(define-key evil-normal-state-map "\\" my-leader-map)
+;; (defvar my-leader-map (make-sparse-keymap)
+;;   "Keymap for \"leader key\" shortcuts.")
 
-;; binding ",b"
-(define-key my-leader-map "b" 'switch-to-buffer)
-(define-key my-leader-map "k" 'kill-current-buffer)
-(define-key my-leader-map "l" 'switch-to-next-buffer)
-(define-key my-leader-map "h" 'switch-to-prev-buffer)
+;; ;; binding "," to the keymap
+;; (define-key evil-normal-state-map "\\" my-leader-map)
+
+;; ;; binding ",b"
+;; (define-key my-leader-map "b" 'switch-to-buffer)
+;; (define-key my-leader-map "k" 'kill-current-buffer)
+;; (define-key my-leader-map "l" 'switch-to-next-buffer)
+;; (define-key my-leader-map "h" 'switch-to-prev-buffer)
 
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Fira Code" :foundry "CTDB" :slant normal :weight normal :height 120 :width normal))))
- '(centaur-active-bar-face ((t (:inherit doom-modeline-bar)))))
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+  '(default ((t (:family "Fira Code" :foundry "CTDB" :slant normal :weight normal :height 120 :width normal))))
+  '(centaur-active-bar-face ((t (:inherit doom-modeline-bar)))))
 
 
-;; Removing initial text
-(setq inhibit-startup-message t)
+ ;; Removing initial text
+ (setq inhibit-startup-message t)
 
 
-;; Removing tool bar, scroll bar
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-;; (menu-bar-mode -1)
+ ;; Removing tool bar, scroll bar
+ (tool-bar-mode -1)
+ (scroll-bar-mode -1)
+ ;; (menu-bar-mode -1)
 
-;; Line hl
-(global-hl-line-mode t)
-(line-number-mode t)
-(global-display-line-numbers-mode 1)
+ ;; Line hl
+ (global-hl-line-mode t)
+ (line-number-mode t)
+(global-display-line-numbers-mode 0)
+(add-hook 'prog-mode-hook 'linum-mode)
+(add-hook 'latex-mode-hook 'linum-mode)
 
 (use-package doom-themes
   :ensure t
@@ -115,6 +125,22 @@
     x-underline-at-descent-line t)
   )
 
+(use-package tree-sitter
+  :ensure t)
+
+(use-package tree-sitter-langs
+  :ensure t)
+
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+;(add-hook 'python-mode-hook #'tree-sitter-hl-mode)
+;(add-hook 'c-mode-hook #'tree-sitter-hl-mode)
+
+(use-package flycheck
+   :ensure t
+   :init
+   (global-flycheck-mode t))
+
 (use-package julia-mode
   :ensure t
   :init)
@@ -134,11 +160,6 @@
 (setq org-support-shift-select t)
 (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
 (add-to-list 'ac-modes 'org-mode)
-
-(add-hook 'org-mode-hook
-    '(lambda ()
-        (make-variable-buffer-local 'yas/trigger-key)
-(setq yas/trigger-key [tab])))
 
 (add-to-list 'org-structure-template-alist
 	'("L" "#+TODO: TODO IN-PROGRESS WAITING DONE\n#+OPTIONS: tex:t\n#+STARTUP: latexpreview\n\n? "))
@@ -230,9 +251,9 @@
         ("C-x t C-t" . treemacs-find-file)
         ("C-x t M-t" . treemacs-find-tag)))
 
-(use-package treemacs-evil
-  :after treemacs evil
-  :ensure t)
+;;(use-package treemacs-evil
+;;  :after treemacs evil
+;;  :ensure t)
 
 (use-package treemacs-projectile
   :after treemacs projectile
@@ -317,3 +338,7 @@
   (setq ivy-posframe-height 100)
   :init
   (ivy-posframe-mode 1))
+
+(use-package ace-window
+  :ensure t
+  :bind (("C-x o" . ace-window)))

@@ -2,19 +2,28 @@
 
 ** Default packages initialization
    #+BEGIN_SRC emacs-lisp
-    (require 'package)
-   
-   (setq
-    package-archives
-    '(("gnu" . "https://elpa.gnu.org/packages/")
-      ("melpa" . "https://melpa.org/packages/")
-      ("org"   . "http://orgmode.org/elpa/")))
-   
-   ;; Bootstrap use-package
-   (unless (package-installed-p 'use-package)
-     (package-refresh-contnts)
-     (package-install 'use-package))
-   (require 'use-package)
+      (require 'package)
+
+     (setq
+      package-archives
+      '(("gnu" . "https://elpa.gnu.org/packages/")
+	("melpa" . "https://melpa.org/packages/")
+	("org"   . "http://orgmode.org/elpa/")
+	("ublt" . "https://elpa.ubolonton.org/packages/")))
+
+     ;; Bootstrap use-package
+     (unless (package-installed-p 'use-package)
+       (package-refresh-contnts)
+       (package-install 'use-package))
+     (require 'use-package)
+   #+END_SRC
+
+** Custom Shortcuts
+   #+BEGIN_SRC emacs-lisp
+   ;; Ctrl+c Ctrl+v Ctrl+x Ctrl+z like normal people
+   ;; (cua-mode t)
+
+   (global-set-key (kbd "C-<tab>") 'other-window)
    #+END_SRC
 
 ** Evil mode
@@ -22,22 +31,24 @@
    (use-package evil
      :ensure t
      :config
-     (evil-mode 1))
+     (evil-mode 0))
+
+     (cua-mode t)
    #+END_SRC
    
 *** Defining some Evil shortcuts
     #+BEGIN_SRC emacs-lisp
-    (defvar my-leader-map (make-sparse-keymap)
-      "Keymap for \"leader key\" shortcuts.")
-    
-    ;; binding "," to the keymap
-    (define-key evil-normal-state-map "\\" my-leader-map)
-    
-    ;; binding ",b"
-    (define-key my-leader-map "b" 'switch-to-buffer)
-    (define-key my-leader-map "k" 'kill-current-buffer)
-    (define-key my-leader-map "l" 'switch-to-next-buffer)
-    (define-key my-leader-map "h" 'switch-to-prev-buffer)
+      ;; (defvar my-leader-map (make-sparse-keymap)
+      ;;   "Keymap for \"leader key\" shortcuts.")
+
+      ;; ;; binding "," to the keymap
+      ;; (define-key evil-normal-state-map "\\" my-leader-map)
+
+      ;; ;; binding ",b"
+      ;; (define-key my-leader-map "b" 'switch-to-buffer)
+      ;; (define-key my-leader-map "k" 'kill-current-buffer)
+      ;; (define-key my-leader-map "l" 'switch-to-next-buffer)
+      ;; (define-key my-leader-map "h" 'switch-to-prev-buffer)
     #+END_SRC
 * UI
 
@@ -64,7 +75,9 @@
  ;; Line hl
  (global-hl-line-mode t)
  (line-number-mode t)
- (global-display-line-numbers-mode 1)
+(global-display-line-numbers-mode 0)
+(add-hook 'prog-mode-hook 'linum-mode)
+(add-hook 'latex-mode-hook 'linum-mode)
    #+END_SRC
    
 ** Themes (doom-themes) 
@@ -75,7 +88,7 @@
      (load-theme 'doom-one t)
      (doom-themes-treemacs-config))
    #+END_SRC
-
+   
 ** Modeline config (doom-modeline)
         #+BEGIN_SRC emacs-lisp
     (use-package doom-modeline
@@ -144,6 +157,29 @@
   
 ** Programming
 
+*** tree sitter
+    #+BEGIN_SRC emacs-lisp
+      (use-package tree-sitter
+	:ensure t)
+
+      (use-package tree-sitter-langs
+	:ensure t)
+
+      (global-tree-sitter-mode)
+      (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+
+      (add-to-list 'load-path "~/.emacs.d/tree-sitter-langs/")
+      ;(add-hook 'python-mode-hook #'tree-sitter-hl-mode)
+      ;(add-hook 'c-mode-hook #'tree-sitter-hl-mode)
+    #+END_SRC
+*** Syntax check
+    #+BEGIN_SRC emacs-lisp
+    (use-package flycheck
+       :ensure t
+       :init
+       (global-flycheck-mode t))
+    #+END_SRC
+
 *** Julia
     #+BEGIN_SRC emacs-lisp
     (use-package julia-mode
@@ -182,12 +218,6 @@
      (setq org-support-shift-select t)
      (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
      (add-to-list 'ac-modes 'org-mode)
-     
-     (add-hook 'org-mode-hook
-         '(lambda ()
-             (make-variable-buffer-local 'yas/trigger-key)
-     (setq yas/trigger-key [tab])))
-
      #+END_SRC
     
 **** Header templates
@@ -293,9 +323,9 @@
            ("C-x t C-t" . treemacs-find-file)
            ("C-x t M-t" . treemacs-find-tag)))
    
-   (use-package treemacs-evil
-     :after treemacs evil
-     :ensure t)
+   ;;(use-package treemacs-evil
+   ;;  :after treemacs evil
+   ;;  :ensure t)
    
    (use-package treemacs-projectile
      :after treemacs projectile
@@ -400,3 +430,10 @@
       :init
       (ivy-posframe-mode 1))
     #+END_SRC
+** Ace window (selecting a window to switch to)
+   #+BEGIN_SRC emacs-lisp
+     (use-package ace-window
+       :ensure t
+       :bind (("C-x o" . ace-window)))
+   #+END_SRC
+   

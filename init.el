@@ -1,4 +1,3 @@
-
 ;; loading my interface configuration file
 
 ;; Added by Package.el.  This must come before configurations of
@@ -21,7 +20,7 @@
     ("/media/home/trettel/Documents/projects/ML-notes/main_notes/org-notes/index.org" "/media/home/trettel/Documents/projects/TESTS/org/testes.org")))
  '(package-selected-packages
    (quote
-    (yasnippet-snippets auctex dashboard dasboard org-bullets auto-complete treemacs-evil evil julia-mode beacon doom-themes yasnippet ivy-posframe doom-modeline centaur-tabs treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs which-key help use-package helm)))
+    (tree-sitter-langs tree-sitter flycheck yasnippet-snippets auctex dashboard dasboard org-bullets auto-complete treemacs-evil evil julia-mode beacon doom-themes yasnippet ivy-posframe doom-modeline centaur-tabs treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs which-key help use-package helm)))
  '(tool-bar-mode nil))
 
 
@@ -36,3 +35,4 @@
  '(centaur-active-bar-face ((t (:inherit doom-modeline-bar)))))
 
 (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
+
