@@ -24,6 +24,7 @@
    ;; (cua-mode t)
 
    (global-set-key (kbd "C-<tab>") 'other-window)
+   (global-set-key "\C-ca" 'org-agenda)
    #+END_SRC
 
 ** Evil mode
@@ -156,7 +157,12 @@
 * Modes
   
 ** Programming
-
+*** fuzzy finder for projects (fzf like)
+    #+BEGIN_SRC emacs-lisp
+      (use-package fzf
+	:ensure t
+	:init)
+    #+END_SRC
 *** tree sitter
     #+BEGIN_SRC emacs-lisp
       (use-package tree-sitter
@@ -437,3 +443,4 @@
        :bind (("C-x o" . ace-window)))
    #+END_SRC
    
+ 

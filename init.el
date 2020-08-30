@@ -17,10 +17,10 @@
     ("2f1518e906a8b60fac943d02ad415f1d8b3933a5a7f75e307e6e9a26ef5bf570" default)))
  '(org-agenda-files
    (quote
-    ("/media/home/trettel/Documents/projects/ML-notes/main_notes/org-notes/index.org" "/media/home/trettel/Documents/projects/TESTS/org/testes.org")))
+    ("~/Documents/agendas/comp.org" "/media/home/trettel/Documents/projects/ML-notes/main_notes/org-notes/index.org" "/media/home/trettel/Documents/projects/TESTS/org/testes.org")))
  '(package-selected-packages
    (quote
-    (tree-sitter-langs tree-sitter flycheck yasnippet-snippets auctex dashboard dasboard org-bullets auto-complete treemacs-evil evil julia-mode beacon doom-themes yasnippet ivy-posframe doom-modeline centaur-tabs treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs which-key help use-package helm)))
+    (fzf tree-sitter-langs tree-sitter flycheck yasnippet-snippets auctex dashboard dasboard org-bullets auto-complete treemacs-evil evil julia-mode beacon doom-themes yasnippet ivy-posframe doom-modeline centaur-tabs treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs which-key help use-package helm)))
  '(tool-bar-mode nil))
 
 
